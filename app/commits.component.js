@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', './commits/commit.Service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,23 +10,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, commit_Service_1;
     var CommitsComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (commit_Service_1_1) {
+                commit_Service_1 = commit_Service_1_1;
             }],
         execute: function() {
             CommitsComponent = (function () {
-                function CommitsComponent() {
+                function CommitsComponent(_commitService) {
+                    this._commitService = _commitService;
                 }
+                CommitsComponent.prototype.ngOnInit = function () {
+                    this.commits = this._commitService.getCommits();
+                };
                 CommitsComponent = __decorate([
                     core_1.Component({
                         selector: 'commits',
-                        template: '<h2>Commits</h2>'
+                        template: "\n    <h2>Commits</h2>\n    <ui>\n        <li *ngFor=\"#commit of commits\">\n           {{commit.commitMessage}}\n        </li>\n    </ui>",
+                        providers: [commit_Service_1.CommitService]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [commit_Service_1.CommitService])
                 ], CommitsComponent);
                 return CommitsComponent;
             }());
